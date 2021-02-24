@@ -35,7 +35,7 @@ function App() {
       })
       .catch(err => {
         setFormErrors({
-          ...formErrors, [name]: err.errors[0]
+          ...formErrors, [name]: err.errors
         })
       })
   }
@@ -49,7 +49,7 @@ function App() {
     })
   }
 
-  const postNewUser = (newUser) => { //if there is an error, check () around newUser.  May need to be removed.
+  const postNewUser = (newUser) => {
     axios.post('https://reqres.in/api/users', newUser)
       .then (res => {
         console.log(res)
