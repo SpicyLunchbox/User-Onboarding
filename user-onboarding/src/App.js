@@ -1,6 +1,8 @@
 import React, {useState, useEffect} from 'react';
 import Form from './Form'
 import UserCards from './UserCards'
+import axios from 'axios'
+import * as yup from 'yup'
 import './App.css';
 
 const initialFormValues = {
@@ -23,6 +25,21 @@ function App() {
     })
   }
 
+  const postNewUser = (newUser) => { //if there is an error, check () around newUser.  May need to be removed.
+    axios.post('https://reqres.in/api/users', newUser)
+      .then (res => {
+        console.log(res)
+        setUsers([...users, newUser])
+      })
+      .catch (err => {
+        console.log(err)
+      })
+      .finally(() => {
+        setFormValues(initialFormValues)
+      })
+  }
+
+
   const submitForm = () => {
     const newUser = {
       name: formValues.name.trim(),
@@ -32,8 +49,7 @@ function App() {
     if (!newUser.name || !newUser.email || !newUser.password) {
       return;
     }
-    setUsers([...users, newUser])
-    setFormValues(initialFormValues)
+    postNewUser(newUser)
   }
 
   return (
